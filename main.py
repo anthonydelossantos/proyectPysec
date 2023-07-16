@@ -5,7 +5,7 @@ import scanPorts
 import Macaddres
 import hostnameInformation, osInformation,interfaces
 import smtMail
-
+#TODO cambiar inputs fuera de los metodos
 class Main:
     def set_value(self,opc):
         self.option = opc
@@ -44,7 +44,25 @@ class Main:
     def analizeTraffic(self):
         self.printstr("Analizing the traffic...")
     def getWebInfo(self):
-        self.printstr("Analizing Website...")
+        webinfo = websiteInfo.Webinfo()
+        n = input("Introduce the URL here -> ")
+        webinfo.set_value(n)
+        res = webinfo.ns_lookup()
+        host = webinfo.get_hostname()
+        ipvv6 = webinfo.get_ipv6()
+        zone = webinfo.get_zone()
+        if res :
+            self.printstr(f"IPv4 of {n} is {res}")
+        if host:
+            self.printstr(f"Domain Name Server of {n} is {host}")
+        if ipvv6:
+            self.printstr(f"IPv6 from {n} is {ipvv6}")
+        elif ipvv6 ==False:
+            self.printstr(f"We can not obtain IPv6 from {n}")
+        if zone :
+            print("Zone information: ")
+            for z in zone:
+                print(z)
     def geolocation(self):
         self.printstr("Getting the location...")
     def scMPorts(self):
@@ -80,15 +98,15 @@ class Main:
 if __name__ == '__main__':
     try:
         objMain = Main()
+        
         while True:
             objMain.menu()
             opc = int(input("Choose a number [1-10] -> "))
-
             objMain.set_value(opc)
             if opc == 1:
                 print("pronto")
             elif opc == 2:
-                print("pronto")
+                objMain.getWebInfo()
             elif opc == 3:
                 print("pronto")
             elif opc == 4:
