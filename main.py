@@ -5,6 +5,7 @@ import scanPorts
 import Macaddres
 import hostnameInformation, osInformation,interfaces
 import smtMail
+import config
 #TODO cambiar inputs fuera de los metodos
 class Main:
     def set_value(self,opc):
@@ -69,8 +70,15 @@ class Main:
         self.printstr("Scanning Multiple Ports...")
     def scSPort(self):
         self.printstr("Scanning a Single Port...")
-    def analizeTraffic(self):
-        self.printstr("Getting the MAC address...")
+    def get_MAC(self,ip):
+        #TODO verificar que una ip introducida sea valida
+        objM = Macaddres.GMac()
+        objM.set_value(ip)
+        if ip == "127.0.0.1":
+            print(f"[+] My own MAC address if {objM.get_ownMac()}")
+        else:
+            print(f"[+] The MAC address of {ip} is {objM.get_ipMac()}")
+        
     def getOSInfo(self):
         self.printstr("Getting all OS devices information...")
     def getHostnameInfo(self):
@@ -79,11 +87,11 @@ class Main:
         self.printstr("Getting all the interfaces...")
     def sendSecretM(self):
         self.printstr("Hi. Welcome to email sender...")
-        sender_email = "proyectoprogram007@outlook.com"
+        sender_email = config.email
         self.printstr("[From] -> proyectoprogram007@outlook.com ")
         receiver_email = input("[to] -> ")
         message = input("[Body] -> ")
-        sender_password = "SijC27y9"
+        sender_password = config.password
         subject = input("[Subject] -> ")
         m = smtMail.Mail()
         m.set_values(sender_email, sender_password, receiver_email, subject, message)
@@ -116,7 +124,8 @@ if __name__ == '__main__':
                 print("pronto")
 
             elif opc == 6:
-                print("pronto")
+                ip_opc = input("Introduce a IP address or just introduce 127.0.0.1 if you want to know what is your own MAC address -> ")
+                objMain.get_MAC(ip=ip_opc)
 
             elif opc == 7:
                 print("pronto")
