@@ -1,7 +1,7 @@
 import networkSniff
 import websiteInfo
 import geolocator
-import scanPorts
+#import scanPorts
 import Macaddres
 import hostnameInformation, osInformation,interfaces
 import smtMail
@@ -64,8 +64,15 @@ class Main:
             print("Zone information: ")
             for z in zone:
                 print(z)
-    def geolocation(self):
-        self.printstr("Getting the location...")
+    def geolocation(self,option):
+        geo = geolocator.Geolocator()
+        if option == 1:
+            geo.get_ownLocation()
+        elif option == 2:
+            ip_victim = input("Introduce the victim ip -> ")
+            geo.set_value(ip_victim)
+            geo.get_geoLocation(ip_victim)
+ 
     def scMPorts(self):
         self.printstr("Scanning Multiple Ports...")
     def scSPort(self):
@@ -116,7 +123,8 @@ if __name__ == '__main__':
             elif opc == 2:
                 objMain.getWebInfo()
             elif opc == 3:
-                print("pronto")
+                option = int(input("Choose what you gonna do? 1) Get my own Geolocation 2) Get a victim Geolocation.\n-> "))
+                objMain.geolocation(option)
             elif opc == 4:
                 print("pronto")
 
