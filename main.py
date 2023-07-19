@@ -90,8 +90,10 @@ class Main:
         oI = osInformation.OsScan()
         oI.set_value(net)
         oI.get_os()
-    def getHostnameInfo(self):
-        self.printstr("Getting all hostname devices information...")
+    def getHostnameInfo(self,net):
+        HMain = hostnameInformation.HostName()
+        HMain.set_value(net)
+        HMain.get_hostname()
     def getInterfaces(self):
         self.printstr("Getting all the interfaces...")
     def sendSecretM(self):
@@ -142,7 +144,8 @@ if __name__ == '__main__':
                 objMain.getOSInfo(net)
                 
             elif opc == 8:
-                print("pronto")
+                 net = input("Introduce the network with the CDIR (192.168.3.0/24) -> ")
+                 objMain.getHostnameInfo(net)
 
             elif opc == 9:
                 print("pronto")
