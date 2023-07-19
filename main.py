@@ -86,8 +86,10 @@ class Main:
         else:
             print(f"[+] The MAC address of {ip} is {objM.get_ipMac()}")
         
-    def getOSInfo(self):
-        self.printstr("Getting all OS devices information...")
+    def getOSInfo(self,net):
+        oI = osInformation.OsScan()
+        oI.set_value(net)
+        oI.get_os()
     def getHostnameInfo(self):
         self.printstr("Getting all hostname devices information...")
     def getInterfaces(self):
@@ -136,8 +138,9 @@ if __name__ == '__main__':
                 objMain.get_MAC(ip=ip_opc)
 
             elif opc == 7:
-                print("pronto")
-
+                net = input("Introduce the network with the CDIR (192.168.3.0/24) -> ")
+                objMain.getOSInfo(net)
+                
             elif opc == 8:
                 print("pronto")
 
