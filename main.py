@@ -6,6 +6,7 @@ import Macaddres
 import hostnameInformation, osInformation,interfaces
 import smtMail
 import config
+import time
 #TODO cambiar inputs fuera de los metodos
 class Main:
     def set_value(self,opc):
@@ -95,7 +96,9 @@ class Main:
         HMain.set_value(net)
         HMain.get_hostname()
     def getInterfaces(self):
-        self.printstr("Getting all the interfaces...")
+        intr = interfaces.Interface()
+        intr.get_status()
+        
     def sendSecretM(self):
         self.printstr("Hi. Welcome to email sender...")
         sender_email = config.email
@@ -148,7 +151,7 @@ if __name__ == '__main__':
                  objMain.getHostnameInfo(net)
 
             elif opc == 9:
-                print("pronto")
+                objMain.getInterfaces()
 
             elif opc == 10:
                 objMain.sendSecretM()
@@ -156,6 +159,7 @@ if __name__ == '__main__':
             if objMain.quit():
                 print("bye.")
                 break
+            time.sleep(3)
 
 
         
