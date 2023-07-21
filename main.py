@@ -73,12 +73,10 @@ class Main:
             geo.set_value(ip_victim)
             geo.get_geoLocation(ip_victim)
  
-    def scMPorts(self,port,ip):
+    def scPorts(self,port,ip):
         scanner = scanPorts.Scanner()
         scanner.set_value(port,ip)
         scanner.scan_port()
-    def scSPort(self):
-        self.printstr("Scanning a Single Port...")
     def get_MAC(self,ip):
         #TODO verificar que una ip introducida sea valida
         objM = Macaddres.GMac()
@@ -139,13 +137,13 @@ if __name__ == '__main__':
                 last_port = int(input("Last port -> "))
                 ipaddr = input("Victim IP -> ")
                 for i in range(first_port,last_port):
-                    objMain.scMPorts(i,ipaddr)
+                    objMain.scPorts(i,ipaddr)
                 
 
             elif opc == 5:
                 one_port = int(input("port-> "))
                 ipaddr = input("Victim IP -> ")
-                objMain.scMPorts(one_port,ipaddr)
+                objMain.scPorts(one_port,ipaddr)
 
             elif opc == 6:
                 ip_opc = input("Introduce a IP address or just introduce 127.0.0.1 if you want to know what is your own MAC address -> ")
