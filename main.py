@@ -1,9 +1,8 @@
-import networkSniff
+#import networkSniff
 import websiteInfo
 import geolocator
-#import scanPorts
 import Macaddres
-import hostnameInformation, osInformation,interfaces
+import hostnameInformation, osInformation,interfaces,scanPorts
 import smtMail
 import config
 import time
@@ -74,8 +73,10 @@ class Main:
             geo.set_value(ip_victim)
             geo.get_geoLocation(ip_victim)
  
-    def scMPorts(self):
-        self.printstr("Scanning Multiple Ports...")
+    def scMPorts(self,port,ip):
+        scanner = scanPorts.Scanner()
+        scanner.set_value(port,ip)
+        scanner.scan_port()
     def scSPort(self):
         self.printstr("Scanning a Single Port...")
     def get_MAC(self,ip):
@@ -133,10 +134,18 @@ if __name__ == '__main__':
                 option = int(input("Choose what you gonna do? 1) Get my own Geolocation 2) Get a victim Geolocation.\n-> "))
                 objMain.geolocation(option)
             elif opc == 4:
-                print("pronto")
+                print("Introduce range of ports: ")
+                first_port = int(input("Initial port-> "))
+                last_port = int(input("Last port -> "))
+                ipaddr = input("Victim IP -> ")
+                for i in range(first_port,last_port):
+                    objMain.scMPorts(i,ipaddr)
+                
 
             elif opc == 5:
-                print("pronto")
+                one_port = int(input("port-> "))
+                ipaddr = input("Victim IP -> ")
+                objMain.scMPorts(one_port,ipaddr)
 
             elif opc == 6:
                 ip_opc = input("Introduce a IP address or just introduce 127.0.0.1 if you want to know what is your own MAC address -> ")
