@@ -184,6 +184,9 @@ if __name__ == '__main__':
         while True:
             objMain.menu()
             opc = int(input("Choose a number [1-10] -> "))
+            while opc not in range(1,12):
+                opc = int(input("Choose a number [1-10] -> "))
+
             objMain.set_value(opc)
             if opc == 1:
                 objMain.analizeTraffic()
@@ -231,5 +234,6 @@ if __name__ == '__main__':
 
 
         
-    except KeyboardInterrupt:
-        print("bye.")
+    except:
+        pass
+        

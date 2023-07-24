@@ -31,8 +31,8 @@ class Webinfo:
         
     def get_ipv6(self):
         try:
-            ipv6 = socket.getaddrinfo(self.domain, 0, socket.AF_INET6)
-            return ipv6[0][4][0]
+            ipv6 = socket.getaddrinfo(self.domain, port=80)
+            return ipv6[3][4][0]
         except:
             return False
     def get_zone(self):

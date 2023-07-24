@@ -32,7 +32,7 @@ class Mail:
         cipher = AES.new(key, AES.MODE_EAX)
         plaintext = bytes(self.message,encoding='utf-8')
         encrypted = cipher.encrypt(plaintext)
-        self.message = "This is a Plain text. And here you have the key to decipher the text encrypted "+ str(key)
+        self.message = "This is a Plain text. And here you have the key to decipher the text encrypted "+ str(key.decode('utf-8'))
         self.set_connection()
         self.send_email()
         self.message = str(encrypted)
