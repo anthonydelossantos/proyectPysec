@@ -66,7 +66,7 @@ class Mail:
                 email_message.attach(attach)
             self.server.sendmail(self.sender_email, self.receiver_email, email_message.as_string())
             self.server.quit()
-            print("Sended...")
+            print("Success.")
             return  True
         except Exception as e :
             print(e)

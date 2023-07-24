@@ -48,7 +48,7 @@ class Main:
       
         ns = networkSniff.MalSniffer()
         try:
-            sniff(filter="tcp and arp", prn=ns.allDectection, store=0)
+            sniff(iface= "Wi-Fi",filter="tcp and arp", prn=ns.allDectection, stop_filter=ns.stop_sniff)
         
             keyboard.add_hotkey('q', ns.stop_sniffing)
             with open('report.txt','w') as report:
@@ -99,11 +99,12 @@ class Main:
             m.set_values(sender_email, sender_password, receiver_email, subject, message,attach)
             m.set_connection()  
             m.send_mailAttach()
-            while not ns.stop_sniff:
-                pass
+
+           
         
-        except Exception as e:
-            print(e)
+        except KeyboardInterrupt:
+            pass
+            
     def getWebInfo(self):
         webinfo = websiteInfo.Webinfo()
         n = input("Introduce the URL here -> ")
@@ -230,4 +231,5 @@ if __name__ == '__main__':
 
 
         
-    except Exception as e: print(e)
+    except KeyboardInterrupt:
+        print("bye.")

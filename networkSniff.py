@@ -77,6 +77,11 @@ class MalSniffer:
                 if self.packetCount > 95:
                     msg =f"Malicious activity from {packet[ARP].hwsrc}. More than {self.packetCount} ARP packets detected from this host - Informative"
                     self.informative.append(msg)
+    def stop_sniffing(self):
+        if keyboard.wait('q'):
+            return True
+        else:
+            return False
             
 
 
@@ -85,7 +90,5 @@ class MalSniffer:
         self.detect_arp_packets(packett)
         self.detect_syn_scan(packett)
         self.detect_requests(packett)
-    def stop_sniffing():
-        global stop_sniff
-        stop_sniff = True
+    
             
