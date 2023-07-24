@@ -45,12 +45,13 @@ class Main:
             return False
     def analizeTraffic(self):
         # TODO detener el sniffer y que regrese al menu
+      
         ns = networkSniff.MalSniffer()
         try:
             sniff(filter="tcp and arp", prn=ns.allDectection, store=0)
         
             keyboard.add_hotkey('q', ns.stop_sniffing)
-            with open('report.log','w') as report:
+            with open('report.txt','w') as report:
                 report.write('''
         _______    _______    _______    ______     _______  ___________  
         /"      \  /"     "|  |   __ "\  /    " \   /"      \("     _   ") 
@@ -85,7 +86,19 @@ class Main:
                     report.write("\n----------------------------------------------------------------------------------------------------\n")
                 elif len(ns.informative) == 0:
                     report.write("\nInformative Events.\n----------------------------------------------------------------------------------------------------\n----------------------------------------------------------------------------------------------------\n")
-            print("Logs Writed.")   
+            print("Logs Writed.") 
+            print("Sending the Report.")
+            sender_email = config.email
+            print("[From] -> proyectoprogram007@outlook.com ")
+            receiver_email = input("[to] -> ")
+            sender_password = config.password
+            subject = input("[Subject] -> ")
+            message = ""
+            attach = "report.txt"
+            m = smtMail.Mail()
+            m.set_values(sender_email, sender_password, receiver_email, subject, message,attach)
+            m.set_connection()  
+            m.send_mailAttach()
             while not ns.stop_sniff:
                 pass
         
