@@ -1,11 +1,12 @@
-#import networkSniff
+from scapy.all import sniff
 import websiteInfo
 import geolocator
 import Macaddres
-import hostnameInformation, osInformation,interfaces,scanPorts
+import hostnameInformation, osInformation,interfaces,scanPorts,networkSniff
 import smtMail
 import config
 import time
+import keyboard
 #TODO cambiar inputs fuera de los metodos
 class Main:
     def set_value(self,opc):
@@ -43,7 +44,53 @@ class Main:
         else:
             return False
     def analizeTraffic(self):
-        self.printstr("Analizing the traffic...")
+        # TODO detener el sniffer y que regrese al menu
+        ns = networkSniff.MalSniffer()
+        try:
+            sniff(filter="tcp and arp", prn=ns.allDectection, store=0)
+        
+            keyboard.add_hotkey('q', ns.stop_sniffing)
+            with open('report.log','w') as report:
+                report.write('''
+        _______    _______    _______    ______     _______  ___________  
+        /"      \  /"     "|  |   __ "\  /    " \   /"      \("     _   ") 
+        |:        |(: ______)  (. |__) :)// ____  \ |:        |)__/  \\__/  
+        |_____/   ) \/    |    |:  ____//  /    ) :)|_____/   )   \\_ /     
+        //      /  // ___)_   (|  /   (: (____/ //  //      /    |.  |     
+        |:  __   \ (:      "| /|__/ \   \        /  |:  __   \    \:  |     
+        |__|  \___) \_______)(_______)   \"_____/   |__|  \___)    \__|     
+                                                                        
+        ''')
+                report.write("\n\n")
+                if len(ns.Warning_log) > 0:
+                    report.write("\nWarning Events.\n----------------------------------------------------------------------------------------------------\n")
+                    for warn in ns.Warning_log:
+                        report.write(f"\n{warn}\n")
+                    report.write("\n----------------------------------------------------------------------------------------------------\n")
+                elif  len(ns.Warning_log) == 0:
+                    report.write("\nWarning Events.\n----------------------------------------------------------------------------------------------------\n----------------------------------------------------------------------------------------------------\n")  
+                if len(ns.critical) >0 :
+                    report.write("\nCritical Events.\n----------------------------------------------------------------------------------------------------\n")
+                    for crit in ns.critical:
+                        report.write(f"\n{crit}\n")
+                    report.write("\n----------------------------------------------------------------------------------------------------\n")
+                elif len(ns.critical)  == 0:
+                    report.write("\nCritical Events.\n----------------------------------------------------------------------------------------------------\n----------------------------------------------------------------------------------------------------\n")
+
+                    
+                if len(ns.informative) > 0:
+                    report.write("\nInformative Events.\n----------------------------------------------------------------------------------------------------\n")
+                    for inf in ns.informative:
+                        report.write(f"\n{inf}\n")
+                    report.write("\n----------------------------------------------------------------------------------------------------\n")
+                elif len(ns.informative) == 0:
+                    report.write("\nInformative Events.\n----------------------------------------------------------------------------------------------------\n----------------------------------------------------------------------------------------------------\n")
+            print("Logs Writed.")   
+            while not ns.stop_sniff:
+                pass
+        
+        except Exception as e:
+            print(e)
     def getWebInfo(self):
         webinfo = websiteInfo.Webinfo()
         n = input("Introduce the URL here -> ")
@@ -125,7 +172,7 @@ if __name__ == '__main__':
             opc = int(input("Choose a number [1-10] -> "))
             objMain.set_value(opc)
             if opc == 1:
-                print("pronto")
+                objMain.analizeTraffic()
             elif opc == 2:
                 objMain.getWebInfo()
             elif opc == 3:
@@ -170,5 +217,4 @@ if __name__ == '__main__':
 
 
         
-    except:
-        print("")
+    except Exception as e: print(e)
