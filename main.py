@@ -49,7 +49,7 @@ class Main:
       
         ns = networkSniff.MalSniffer()
         try:
-            sniff(iface= "Wi-Fi",filter="tcp and arp", prn=ns.allDectection, stop_filter=ns.stop_sniff)
+            sniff(filter="tcp and arp", prn=ns.allDectection, stop_filter=ns.stop_sniff)
         
             keyboard.add_hotkey('q', ns.stop_sniffing)
             with open('report.txt','w') as report:
