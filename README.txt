@@ -23,6 +23,6 @@ email = "tucorreo@outlook.com"
 password = "tupassword"
 ---------------------------------------------------
 * Si quieres que el network sniffer alerte de otras IPs malicionas te recomiendo agregarlas a c2_serversIP.txt 
-* Para detener el sniffer debe apretarse CTR-C una sola vez.
+* Para detener el sniffer debe apretarse CTRL-C una sola vez.
 * Cada que una opcion se ejecute se debe esperar 3 segundos para que vuelva aparecer el menú principal
 * Para algunas funciones como Scan Single/Multiple port debes instalar nmap en tu maquina en donde correras el codigo 
