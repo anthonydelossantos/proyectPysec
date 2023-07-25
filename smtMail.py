@@ -30,8 +30,9 @@ class Mail:
     def send_encryptMail(self):
         key = b'Sixteen byte key'
         cipher = AES.new(key, AES.MODE_EAX)
-        plaintext = bytes(self.message,encoding='utf-8')
+        plaintext = bytes(self.message.encode())
         encrypted = cipher.encrypt(plaintext)
+        print(encrypted)
         self.message = "This is a Plain text. And here you have the key to decipher the text encrypted "+ str(key.decode('utf-8'))
         self.set_connection()
         self.send_email()
@@ -49,6 +50,7 @@ class Mail:
             email_message["Subject"] = self.subject
             email_message.attach(MIMEText(self.message, "plain"))
             self.server.sendmail(self.sender_email, self.receiver_email, email_message.as_string())
+            print("Success!")
             self.server.quit()
             return  True
         except:

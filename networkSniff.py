@@ -2,6 +2,7 @@ from scapy.all import sniff, ICMP,TCP,IP,DNS,ARP
 import keyboard
 
 
+
 '''
 Category Events:
 0 -> Informative
@@ -45,7 +46,7 @@ class MalSniffer:
     stop_sniff = False
 
     def detect_syn_scan(self,packet):
-        category_event = 1
+        
         if TCP in packet and packet[TCP].flags == 2:  # Verificamos si el paquete es TCP y tiene el flag SYN (2)
             msg="SYN port Scan from {} to the port {}. Warning".format(packet["IP"].src, packet['TCP' ].dport)
             self.Warning_log.append(msg)
@@ -53,9 +54,8 @@ class MalSniffer:
 
     def detect_requests(self,packet):
         c2list = []
-        count = 0
         with open('c2_serversIP.txt','r') as c2f:
-                category_event = 2
+                
                 l = c2f.readlines()
                 for line in l:
                     if  not line.isspace():
@@ -64,13 +64,11 @@ class MalSniffer:
         print(packet.summary())
         for i in c2list:
             ip = i.split(":")[0]
-            port = i.split(":")[1]
             if TCP in packet and packet[IP].dst ==  ip :
                 msg = f"Malicious Connection to {ip} C2 - Critical"
                 self.critical.append(msg)
     def detectTor_requests(self,packet):
         c2list = []
-        count = 0
         with open('torNodes.txt','r') as c2f:
                 category_event = 2
                 l = c2f.readlines()

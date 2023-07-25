@@ -6,10 +6,11 @@ import hostnameInformation, osInformation,interfaces,scanPorts,networkSniff
 import smtMail
 import config
 import time
-import keyboard
-#TODO cambiar inputs fuera de los metodos
+
+
 
 class Main:
+    option = ""
     def set_value(self,opc):
         self.option = opc
     def printstr(self,msg):
@@ -45,13 +46,9 @@ class Main:
         else:
             return False
     def analizeTraffic(self):
-        # TODO detener el sniffer y que regrese al menu
-      
         ns = networkSniff.MalSniffer()
         try:
             sniff(filter="tcp and arp", prn=ns.allDectection, stop_filter=ns.stop_sniff)
-        
-            keyboard.add_hotkey('q', ns.stop_sniffing)
             with open('report.txt','w') as report:
                 report.write('''
         _______    _______    _______    ______     _______  ___________  
@@ -87,10 +84,10 @@ class Main:
                     report.write("\n----------------------------------------------------------------------------------------------------\n")
                 elif len(ns.informative) == 0:
                     report.write("\nInformative Events.\n----------------------------------------------------------------------------------------------------\n----------------------------------------------------------------------------------------------------\n")
-            print("Logs Writed.") 
+            print("Logs Wrote.") 
             print("Sending the Report.")
             sender_email = config.email
-            print("[From] -> proyectoprogram007@outlook.com ")
+            print(f"[From] -> {sender_email} ")
             receiver_email = input("[to] -> ")
             sender_password = config.password
             subject = input("[Subject] -> ")
@@ -140,7 +137,6 @@ class Main:
         scanner.set_value(port,ip)
         scanner.scan_port()
     def get_MAC(self,ip):
-        #TODO verificar que una ip introducida sea valida
         objM = Macaddres.GMac()
         objM.set_value(ip)
         if ip == "127.0.0.1":
@@ -163,7 +159,7 @@ class Main:
     def sendSecretM(self):
         self.printstr("Hi. Welcome to email sender...")
         sender_email = config.email
-        self.printstr("[From] -> proyectoprogram007@outlook.com ")
+        self.printstr(f"[From] -> {sender_email} ")
         receiver_email = input("[to] -> ")
         message = input("[Body] -> ")
         sender_password = config.password
@@ -247,6 +243,7 @@ if __name__ == '__main__':
 
             elif opc == 10:
                 objMain.sendSecretM()
+                
                 if "Send encrypted mail" not in logs:
                     logs.append("Send encrypted mail")
 
@@ -274,5 +271,5 @@ if __name__ == '__main__':
 
         
     except:
-        pass
+        print("")
         
