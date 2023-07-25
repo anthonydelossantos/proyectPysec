@@ -262,7 +262,7 @@ if __name__ == '__main__':
 \/_/     \/_/  \_\/ \/_/ \/_/ \_\/  \/_____/  \_\/ \_\/ \/_____/\_\/      )_____(   \_\/ \_\/  /_/_/ 
 
 ''')                
-                    reportF.write("Logs of fuctions used:\n")
+                    reportF.write("Logs fuctions used:\n")
                     for i in logs:
                         msg = f"[+] {i}\n"
                         reportF.write(msg)
