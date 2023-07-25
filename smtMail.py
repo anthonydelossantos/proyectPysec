@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-from Crypto.Cipher import AES
+from cryptography.fernet import Fernet
 
 class Mail:
     sender_email="" 
@@ -28,11 +28,10 @@ class Mail:
         self.server.login(self.sender_email, self.sender_password)
 
     def send_encryptMail(self):
-        key = b'Sixteen byte key'
-        cipher = AES.new(key, AES.MODE_EAX)
+        key =Fernet.generate_key()
+        cipher =Fernet(key)
         plaintext = bytes(self.message.encode())
         encrypted = cipher.encrypt(plaintext)
-        print(encrypted)
         self.message = "This is a Plain text. And here you have the key to decipher the text encrypted "+ str(key.decode('utf-8'))
         self.set_connection()
         self.send_email()
