@@ -68,6 +68,23 @@ class MalSniffer:
             if TCP in packet and packet[IP].dst ==  ip :
                 msg = f"Malicious Connection to {ip} C2 - Critical"
                 self.critical.append(msg)
+    def detectTor_requests(self,packet):
+        c2list = []
+        count = 0
+        with open('torNodes.txt','r') as c2f:
+                category_event = 2
+                l = c2f.readlines()
+                for line in l:
+                    if  not line.isspace():
+                        line = line.replace('\n','')
+                        c2list.append(line)
+        print(packet.summary())
+        for i in c2list:
+            ip = i.split(":")[0]
+            port = i.split(":")[1]
+            if TCP in packet and packet[IP].dst ==  ip :
+                msg = f"Malicious Connection to {ip} TOR nodes - Warning"
+                self.Warning_log.append(msg)
 
     def detect_arp_packets(self,packet):
         
@@ -88,6 +105,7 @@ class MalSniffer:
 
     def allDectection(self,packett):
         self.detect_arp_packets(packett)
+        #self.detectTor_requests(packett)
         self.detect_syn_scan(packett)
         self.detect_requests(packett)
     

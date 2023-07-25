@@ -8,6 +8,7 @@ import config
 import time
 import keyboard
 #TODO cambiar inputs fuera de los metodos
+
 class Main:
     def set_value(self,opc):
         self.option = opc
@@ -180,7 +181,7 @@ class Main:
 if __name__ == '__main__':
     try:
         objMain = Main()
-        
+        logs = []
         while True:
             objMain.menu()
             opc = int(input("Choose a number [1-10] -> "))
@@ -190,11 +191,17 @@ if __name__ == '__main__':
             objMain.set_value(opc)
             if opc == 1:
                 objMain.analizeTraffic()
+                if "Traffic Sniffing" not in logs:
+                    logs.append("Traffic Sniffing")
             elif opc == 2:
                 objMain.getWebInfo()
+                if "Gather Web Info" not in logs:
+                    logs.append("Gather Web Info")
             elif opc == 3:
                 option = int(input("Choose what you gonna do? 1) Get my own Geolocation 2) Get a victim Geolocation.\n-> "))
                 objMain.geolocation(option)
+                if "Get Geolocation" not in logs:
+                    logs.append("Get Geolocation") 
             elif opc == 4:
                 print("Introduce range of ports: ")
                 first_port = int(input("Initial port-> "))
@@ -203,31 +210,63 @@ if __name__ == '__main__':
                 for i in range(first_port,last_port):
                     objMain.scPorts(i,ipaddr)
                 
+                if "Scan multiple Ports" not in logs:
+                    logs.append("Scan multiple Ports")
+                
 
             elif opc == 5:
                 one_port = int(input("port-> "))
                 ipaddr = input("Victim IP -> ")
                 objMain.scPorts(one_port,ipaddr)
+                if "Scan  a Single Ports" not in logs:
+                    logs.append("Scan a Single Ports")
+
 
             elif opc == 6:
                 ip_opc = input("Introduce a IP address or just introduce 127.0.0.1 if you want to know what is your own MAC address -> ")
                 objMain.get_MAC(ip=ip_opc)
+                if "Get MAC Address" not in logs:
+                    logs.append("Get MAC Address")
 
             elif opc == 7:
                 net = input("Introduce the network with the CDIR (192.168.3.0/24) -> ")
                 objMain.getOSInfo(net)
+                if "Get OS from LAN devices" not in logs:
+                    logs.append("Get OS from LAN devices")
                 
             elif opc == 8:
                  net = input("Introduce the network with the CDIR (192.168.3.0/24) -> ")
                  objMain.getHostnameInfo(net)
+                 if "Get Hostname from LAN devices" not in logs:
+                    logs.append("Get Hostname from LAN devices")
 
             elif opc == 9:
                 objMain.getInterfaces()
+                if "Get network interfaces" not in logs:
+                    logs.append("Get network interfaces")
 
             elif opc == 10:
                 objMain.sendSecretM()
+                if "Send encrypted mail" not in logs:
+                    logs.append("Send encrypted mail")
 
             if objMain.quit():
+                with open("reporteFinal.txt","w") as reportF:
+                    reportF.write('''
+   _____  __    __   __    _____     __        __ __      _____  __ __     _____     __ __     _______   
+ /\_____\/\_\  /_/\ /\_\  /\___/\   /\_\      /_/\__/\  /\_____\/_/\__/\  ) ___ (   /_/\__/\ /\_______)\ 
+( (  ___/\/_/  ) ) \ ( ( / / _ \ \ ( ( (      ) ) ) ) )( (_____/) ) ) ) )/ /\_/\ \  ) ) ) ) )\(___  __\/ 
+ \ \ \_   /\_\/_/   \ \_\\ \(_)/ /  \ \_\    /_/ /_/_/  \ \__\ /_/ /_/ // /_/ (_\ \/_/ /_/_/   / / /     
+ / / /_\ / / /\ \ \   / // / _ \ \  / / /__  \ \ \ \ \  / /__/_\ \ \_\/ \ \ )_/ / /\ \ \ \ \  ( ( (      
+/ /____/( (_(  )_) \ (_(( (_( )_) )( (_____(  )_) ) \ \( (_____\)_) )    \ \/_\/ /  )_) ) \ \  \ \ \     
+\/_/     \/_/  \_\/ \/_/ \/_/ \_\/  \/_____/  \_\/ \_\/ \/_____/\_\/      )_____(   \_\/ \_\/  /_/_/ 
+
+''')                
+                    reportF.write("Logs of fuctions used:\n")
+                    for i in logs:
+                        msg = f"[+] {i}\n"
+                        reportF.write(msg)
+                        
                 print("bye.")
                 break
             time.sleep(3)
