@@ -89,7 +89,9 @@ class Main:
             print("Sending the Report.")
             sender_email = config.email
             print(f"[From] -> {sender_email} ")
-            receiver_email = input("[to] -> ")
+            receiver_email = input("[to] -> [defaul: testh892@gmail.com] ")
+            if receiver_email == "":
+                receiver_email = "testh892@gmail.com"
             sender_password = config.password
             subject = input("[Subject] -> ")
             message = ""
