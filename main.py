@@ -8,7 +8,13 @@ import config
 import time
 
 
+'''
+Anthony De Los Santos 
+Kevin Valles
+Ruben Guillen 
+Luis Sergent
 
+'''
 
 class Main:
     option = ""
@@ -136,9 +142,12 @@ class Main:
             geo.get_geoLocation(ip_victim)
  
     def scPorts(self,port,ip):
+        
         scanner = scanPorts.Scanner()
         scanner.set_value(port,ip)
-        scanner.scan_port()
+        return scanner.scan_port()
+       
+
     def get_MAC(self,ip):
         objM = Macaddres.GMac()
         objM.set_value(ip)
@@ -202,21 +211,37 @@ if __name__ == '__main__':
                 if "Get Geolocation" not in logs:
                     logs.append("Get Geolocation") 
             elif opc == 4:
+                email = "[+] Port\tStatus\tService\n"
                 print("Introduce range of ports: ")
                 first_port = int(input("Initial port-> "))
                 last_port = int(input("Last port -> "))
                 ipaddr = input("Victim IP -> ")
                 for i in range(first_port,last_port):
-                    objMain.scPorts(i,ipaddr)
+                    email += objMain.scPorts(i,ipaddr)
+                try:
+                    sm = smtMail.Mail()
+                    sm.set_values(config.email,config.password,"testh892@gmail.com","Reporte Puertos",email)
+                    sm.set_connection()
+                    sm.send_email()
+                except :
+                    print("Something with mail report goes wrong.")
                 
                 if "Scan multiple Ports" not in logs:
                     logs.append("Scan multiple Ports")
                 
 
             elif opc == 5:
+                email = "[+] Port\tStatus\tService\n"
                 one_port = int(input("port-> "))
                 ipaddr = input("Victim IP -> ")
-                objMain.scPorts(one_port,ipaddr)
+                email += objMain.scPorts(one_port,ipaddr)
+                try:
+                    sm = smtMail.Mail()
+                    sm.set_values(config.email,config.password,"testh892@gmail.com","Reporte Puertos",email)
+                    sm.set_connection()
+                    sm.send_email()
+                except:
+                    print("Something with mail report goes wrong.")
                 if "Scan  a Single Ports" not in logs:
                     logs.append("Scan a Single Ports")
 
@@ -273,6 +298,6 @@ if __name__ == '__main__':
 
 
         
-    except:
-        print("")
+    except Exception as e :
+        print(e)
         

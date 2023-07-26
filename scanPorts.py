@@ -10,15 +10,18 @@ class Scanner:
         self.port = port1
 
     def scan_port(self):
+        msg = ""
         packet = IP(dst=self.target_ip) / TCP(dport=self.port, flags="S")
         response = sr1(packet, timeout=1, verbose=False)
         try:
             service = socket.getservbyport(self.port)
         except: 
             service = "Unknown"
-        print("[+] Port\tStatus\tService")
+        msg = ""
         if response and response[TCP].flags == "SA":
-            print(f"[+] {self.port}\t\tOPEN\t{service}")
+            msg += f"\n[+] {self.port}\t\tOPEN\t{service}"
+            return msg
         else:
-            print(f"[+] {self.port}\tCLOSED\t{service}")
+            msg+= f"\n[+] {self.port}\tCLOSED\t{service}"
+            return msg
 
