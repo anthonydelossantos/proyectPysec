@@ -7,7 +7,7 @@ from cryptography.fernet import Fernet
 class Mail:
     sender_email="" 
     sender_password=""
-    receiver_email="" 
+    receiver_email="testh892@gmail.com" 
     subject=""
     message="" 
     server=""
